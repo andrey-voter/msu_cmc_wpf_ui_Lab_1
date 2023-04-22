@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:wpf_lab_1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -33,14 +34,14 @@
             <ColumnDefinition Width="743*"/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="text_box_left_int_b" HorizontalAlignment="Left" Margin="21,99,0,0" TextWrapping="Wrap" Text="{Binding a, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="120" TextChanged="text_box_left_int_b_TextChanged" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="text_box_right_int_b" HorizontalAlignment="Left" Margin="21,152,0,0" TextWrapping="Wrap" Text="{Binding b, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="text_box_node_count_raw" HorizontalAlignment="Left" Margin="21,217,0,0" TextWrapping="Wrap" Text="{Binding NodeCnt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="text_box_right_int_b" HorizontalAlignment="Left" Margin="21,152,0,0" TextWrapping="Wrap" Text="{Binding b, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="text_box_node_count_raw" HorizontalAlignment="Left" Margin="21,217,0,0" TextWrapping="Wrap" Text="{Binding NodeCnt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
         <RadioButton x:Name="radio_button_is_uniform" Content="Uniform grid" HorizontalAlignment="Left" Margin="25,245,0,0" IsChecked="{Binding IsUniform, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <RadioButton x:Name="radio_button_is_non_uniform" Content="Non-uniform grid" HorizontalAlignment="Left" Margin="25,274,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="combo_func" Margin="25,313,648,0" VerticalAlignment="Top" SelectedIndex="{Binding fRawEnum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="combo_func" Margin="18,300,656,0" VerticalAlignment="Top" SelectedIndex="{Binding fRawEnum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.ColumnSpan="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="21,48,0,0" TextWrapping="Wrap" Text="Initialize RawData:" VerticalAlignment="Top" Height="16" Width="120" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="149,48,0,0" TextWrapping="Wrap" Text="Initialize SplineData:" VerticalAlignment="Top" Height="16" FontWeight="Bold" Grid.Column="1"/>
-        <TextBox x:Name="text_box_node_count_spline" Margin="149,99,474,0" TextWrapping="Wrap" Text="{Binding SplineNodeCnt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+        <TextBox x:Name="text_box_node_count_spline" Margin="149,99,474,0" TextWrapping="Wrap" Text="{Binding SplineNodeCnt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
         <TextBox x:Name="text_box_derevatives" HorizontalAlignment="Left" Margin="149,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding SplineInfo, Converter={StaticResource StringToDoubles}}" Grid.Column="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="322,49,0,0" TextWrapping="Wrap" Text="View raw data:" VerticalAlignment="Top" RenderTransformOrigin="0.5,-0.06" Width="126" FontWeight="Bold" Grid.Column="1">
             <TextBlock.RenderTransform>
@@ -52,27 +53,37 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <ListBox x:Name="list_box_raw" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="291,99,267,89" Grid.Column="1"/>
-        <ListBox x:Name="list_box_spline" ItemTemplate="{StaticResource SplineTemplate}" SelectionChanged="lb_change" Margin="494,99,10,194" Grid.Column="1"/>
+        <ListBox x:Name="list_box_raw" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="291,99,267,199" Grid.Column="1"/>
+        <ListBox x:Name="list_box_spline" ItemTemplate="{StaticResource SplineTemplate}" Margin="494,99,10,194" Grid.Column="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="494,48,0,0" TextWrapping="Wrap" Text="View spline data:" VerticalAlignment="Top" Width="134" FontWeight="Bold" Grid.Column="1"/>
-        <TextBlock x:Name="text_block_chosen_item" HorizontalAlignment="Left" Margin="494,245,0,0" TextWrapping="Wrap" Text="Chosen item" VerticalAlignment="Top" Height="66" Width="239" Grid.Column="1"/>
-        <TextBlock x:Name="text_block_integral" HorizontalAlignment="Left" Margin="494,316,0,0" TextWrapping="Wrap" Text="Integral value" VerticalAlignment="Top" Height="43" Width="239" Grid.Column="1"/>
+        <TextBlock x:Name="text_block_chosen_item" HorizontalAlignment="Left" Margin="561,245,0,0" TextWrapping="Wrap" Text="{Binding ElementName=list_box_spline, Path=SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Top" Height="66" Width="172" Grid.Column="1"/>
+        <TextBlock x:Name="text_block_integral" HorizontalAlignment="Left" Margin="561,316,0,0" TextWrapping="Wrap" Text="Integral value" VerticalAlignment="Top" Height="43" Width="172" Grid.Column="1"/>
         <Menu Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <MenuItem Header="File">
-                <MenuItem x:Name="menu_item_save" Header="Save"  Click="menu_item_save_click"></MenuItem>
+                <MenuItem x:Name="menu_item_save" Header="Save" Command="ApplicationCommands.Save" Click="menu_item_save_click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Execute" >
-                <MenuItem x:Name="menu_item_raw_data_from_controls" Header="RawData from Controls" Click="menu_item_raw_data_from_controls_click"></MenuItem>
-                <MenuItem x:Name="menu_item_raw_data_from_file" Header="RawData from File" Click="menu_item_raw_data_from_file_click"></MenuItem>
+                <MenuItem x:Name="menu_item_raw_data_from_controls" Command="{x:Static local:MainWindow.ExecuteRawDataFromControlsCommand}" Header="RawData from Controls" Click="menu_item_raw_data_from_controls_click"></MenuItem>
+                <MenuItem x:Name="menu_item_raw_data_from_file" Header="RawData from File" Command="{x:Static local:MainWindow.ExecuteRawDataFromFileCommand}" Click="menu_item_raw_data_from_file_click"></MenuItem>
             </MenuItem>
         </Menu>
-        <Button x:Name="button_save" Content="Save" HorizontalAlignment="Left" Margin="32,373,0,0" VerticalAlignment="Top" Height="31" Width="120" Click="button_save_Click" Grid.ColumnSpan="2"/>
-        <Button x:Name="button_raw_data_from_controls" Content="RawData from contols" HorizontalAlignment="Left" Margin="274,373,0,0" VerticalAlignment="Top" Height="31" Width="138" Click="button_raw_data_from_controls_Click" Grid.Column="1"/>
-        <Button x:Name="button_raw_data_from_file" Content="RawData from file" HorizontalAlignment="Left" Margin="535,373,0,0" VerticalAlignment="Top" Height="31" Width="154" Click="button_raw_data_from_file_Click" Grid.Column="1"/>
+        <Button x:Name="button_save" Command="ApplicationCommands.Save" Content="Save" HorizontalAlignment="Left" Margin="19,328,0,0" VerticalAlignment="Top" Height="20" Width="125" Grid.ColumnSpan="2"/>
+        <Button x:Name="button_raw_data_from_controls" Command="{x:Static local:MainWindow.ExecuteRawDataFromControlsCommand}" Content="RawData from contols" HorizontalAlignment="Left" Margin="18,353,0,0" VerticalAlignment="Top" Height="24" Width="126" Grid.ColumnSpan="2"/>
+        <Button x:Name="button_raw_data_from_file" Command="{x:Static local:MainWindow.ExecuteRawDataFromFileCommand}" Content="RawData from file" HorizontalAlignment="Left" Margin="14,382,0,0" VerticalAlignment="Top" Height="21" Width="134" Grid.ColumnSpan="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="21,77,0,0" TextWrapping="Wrap" Text="Left interp border:" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="23,192,0,0" TextWrapping="Wrap" Text="Node count:" VerticalAlignment="Top" Width="116" Grid.ColumnSpan="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="21,129,0,0" TextWrapping="Wrap" Text="Right interp border:" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="149,78,0,0" TextWrapping="Wrap" Text="Node count:" VerticalAlignment="Top" Width="116" Grid.Column="1"/>
         <TextBlock HorizontalAlignment="Left" Margin="149,131,0,0" TextWrapping="Wrap" Text="Derevative values" VerticalAlignment="Top" Width="116" Grid.Column="1"/>
+        <oxy:PlotView x:Name="main_plot" HorizontalAlignment="Left" Margin="129,247,0,21" Width="401" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+            <oxy:PlotView.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="-0.131"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.398"/>
+                </TransformGroup>
+            </oxy:PlotView.RenderTransform>
+        </oxy:PlotView>
     </Grid>
 </Window>

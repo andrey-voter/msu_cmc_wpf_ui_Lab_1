@@ -32,28 +32,59 @@ namespace сlass_library_lab1
             this.func = func;
             nodes = new double[NodeCount];
             values = new double[NodeCount];
-            if (NodeCount == 1)
+            if (uniform)
             {
-                nodes[0] = a;
-                values[0] = func(a);
-            }
-            else if (NodeCount == 2)
-            {
-                nodes[0] = a;
-                nodes[1] = b;
-                values[0] = func(a);
-                values[1] = func(b);
+                if (NodeCount == 1)
+                {
+                    nodes[0] = a;
+                    values[0] = func(a);
+                }
+                else if (NodeCount == 2)
+                {
+                    nodes[0] = a;
+                    nodes[1] = b;
+                    values[0] = func(a);
+                    values[1] = func(b);
+                }
+                else
+                {
+                    nodes[0] = a;
+                    nodes[NodeCount - 1] = b;
+                    values[0] = func(a);
+                    values[NodeCount - 1] = func(b);
+                    for (int i = 1; i < NodeCount - 1; ++i)
+                    {
+                        nodes[i] = a + i * (b - a) / NodeCount;
+                        values[i] = func(nodes[i]);
+                    }
+                }
             }
             else
             {
-                nodes[0] = a;
-                nodes[NodeCount - 1] = b;
-                values[0] = func(a);
-                values[NodeCount - 1] = func(b);
-                for (int i = 1; i < NodeCount - 1; ++i)
+                if (NodeCount == 1)
                 {
-                    nodes[i] = a + i * (b - a) / NodeCount;
-                    values[i] = func(nodes[i]);
+                    nodes[0] = a;
+                    values[0] = func(a);
+                }
+                else if (NodeCount == 2)
+                {
+                    nodes[0] = a;
+                    nodes[1] = b;
+                    values[0] = func(a);
+                    values[1] = func(b);
+                }
+                else
+                {
+                    nodes[0] = a;
+                    nodes[NodeCount - 1] = b;
+                    values[0] = func(a);
+                    values[NodeCount - 1] = func(b);
+                    Random rnd = new();
+                    for (int i = 1; i < NodeCount - 1; ++i)
+                    {
+                        nodes[i] = nodes[i - 1] + Math.Abs(rnd.NextDouble()) / NodeCount;
+                        values[i] = func(nodes[i]);
+                    }
                 }
             }
         }
