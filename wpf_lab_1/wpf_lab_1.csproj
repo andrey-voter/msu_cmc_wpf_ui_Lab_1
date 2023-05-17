@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\сlass_library_lab1\сlass_library_lab1.csproj" />
+    <ProjectReference Include="..\Lab_1ViewModel\Lab_1ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

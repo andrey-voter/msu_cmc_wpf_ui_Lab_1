@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using сlass_library_lab1;
 
-namespace wpf_lab_1
+namespace сlass_library_lab1
 {
     public class MyPlotModel
     {
@@ -56,7 +56,7 @@ namespace wpf_lab_1
                 lineSeries_rd.Title = "Function to interpolate";
             }
             plotModel.Legends.Add(legend_rd);
-            this.plotModel.Series.Add(lineSeries_rd);
+            plotModel.Series.Add(lineSeries_rd);
         }
     }
 }

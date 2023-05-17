@@ -22,7 +22,7 @@ namespace сlass_library_lab1
         public RawData(double a, double b, int NodeCount, bool uniform, FRaw func)
         {
             if (NodeCount <= 0)
-                throw new Exception("Empty data in RawData constructor");
+                throw new ArgumentOutOfRangeException("Empty data in RawData constructor");
             if (a > b)
                 throw new Exception("Incorrect borders RawData constructor");
             this.a = a;
@@ -54,7 +54,7 @@ namespace сlass_library_lab1
                     values[NodeCount - 1] = func(b);
                     for (int i = 1; i < NodeCount - 1; ++i)
                     {
-                        nodes[i] = a + i * (b - a) / NodeCount;
+                        nodes[i] = a + i * (b - a) / (NodeCount - 1);
                         values[i] = func(nodes[i]);
                     }
                 }
@@ -118,10 +118,6 @@ namespace сlass_library_lab1
                     reader.ReadLine();
                 }
             }
-            //catch (Exception exc)
-            //{
-            //    Console.WriteLine($"The exception was catched:: {exc}");
-            //}
             finally
             {
                 if (reader != null) { reader.Dispose(); }
@@ -165,10 +161,6 @@ namespace сlass_library_lab1
                     writer.WriteLine();
                 }
             }
-           // catch (Exception exc)
-           // {
-            //    Console.WriteLine($"The exception was catched: {exc}");
-           //}
             finally
             {
                 if (writer != null) { writer.Dispose(); }
@@ -178,34 +170,6 @@ namespace сlass_library_lab1
         public static void Load(string FileName, out RawData rawData)
         {
             rawData = new RawData(FileName);
-            //FileStream? file = null;
-            //StreamReader? reader = null;
-            //try
-            //{
-            //    file = File.OpenRead(FileName);
-            //    reader = new StreamReader(file);
-            //    rawData = new RawData(FileName);
-            //    rawData.a = double.Parse(reader.ReadLine());
-            //    rawData.b = double.Parse(reader.ReadLine());
-            //    rawData.NodeCount = int.Parse(reader.ReadLine());
-            //    reader.ReadLine();
-            //    reader.ReadLine();
-            //    for (int i = 0; i < rawData.NodeCount; i++)
-            //    {
-            //        rawData.nodes[i] = double.Parse(reader.ReadLine());
-            //        rawData.values[i] = double.Parse(reader.ReadLine());
-            //        reader.ReadLine();
-            //    }
-            //}
-            //catch (Exception exc)
-            //{
-            //    Console.WriteLine($"The exception was catched:: {exc}");
-            //}
-            //finally
-            //{
-            //    if (reader != null) { reader.Dispose(); }
-            //    if (file != null) { file.Close(); }
-            //}
 
         }
     }

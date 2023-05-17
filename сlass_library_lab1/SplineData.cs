@@ -17,6 +17,7 @@ namespace сlass_library_lab1
 
         public SplineData(RawData? rawData, double spline2Left, double spline2Right, int nodeCnt)
         {
+
             Data = new List<SplineDataItem>();
             this.rawData = rawData;
             NodeCnt = nodeCnt;
